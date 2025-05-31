@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(120deg, #f9c5d1 0%, #fd6e6a 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 400px;
+            min-width: 320px;
+            position: relative;
+            z-index: 2;
+            margin: auto;
+        }
+        .heart {
+            color: #fd6e6a;
+            font-size: 3rem;
+            animation: beat 1s infinite;
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2);}
+        }
+        h1 { font-size: 2.2rem; color: #fd6e6a; margin-bottom: 0.5rem; }
+        p { font-size: 1.15rem; color: #333; margin-top: 0.5rem; }
+        .cake-section { margin: 2rem 0 1rem 0; display: flex; flex-direction: column; align-items: center; }
+        .cake-video-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        #cakeVideo {
+            display: block;
+            margin: 0 auto;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 4px 24px #fd6e6a44;
+        }
+        .message {
+            display: none;
+            margin-top: 1.5rem;
+            color: #fd6e6a;
+            font-size: 1.25rem;
+            font-weight: bold;
+            animation: fadein 1.2s;
+        }
+        @keyframes fadein { from { opacity: 0;} to { opacity: 1;} }
+        .gallery-btn {
+            display: none;
+            margin-top: 2rem;
+            background: #fff;
+            border: 2px solid #fd6e6a;
+            color: #fd6e6a;
+            font-size: 1.1rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background .2s, color .2s;
+        }
+        .gallery-btn:hover {
+            background: #fd6e6a;
+            color: #fff;
+        }
+        /* Balloons */
+        .balloon {
+            position: absolute;
+            bottom: -120px;
+            width: 60px;
+            height: 80px;
+            background: radial-gradient(ellipse at center, #fff 10%, var(--color) 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            z-index: 1;
+            animation: floatballoon 8s linear infinite;
+            opacity: 0.85;
+        }
+        .balloon:after {
+            content: '';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            width: 2px;
+            height: 24px;
+            background: #888;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+        .balloon:nth-child(1) { left: 10vw; --color: #ff7eb9; animation-delay: 0s;}
+        .balloon:nth-child(2) { left: 25vw; --color: #ff65a3; animation-delay: 1.2s;}
+        .balloon:nth-child(3) { left: 50vw; --color: #fcd800; animation-delay: 2.5s;}
+        .balloon:nth-child(4) { left: 70vw; --color: #7afcff; animation-delay: 3s;}
+        .balloon:nth-child(5) { left: 85vw; --color: #fff740; animation-delay: 4.1s;}
+        .balloon:nth-child(6) { left: 35vw; --color: #b967ff; animation-delay: 5.3s;}
+        .balloon:nth-child(7) { left: 60vw; --color: #ffb347; animation-delay: 6.2s;}
+        @keyframes floatballoon {
+            0% {
+                transform: translateY(0) scale(1) rotate(-4deg);
+                opacity: 0.9;
+            }
+            60% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.05) rotate(7deg);
+                opacity: 0.2;
+            }
+        }
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card { padding: 1.5rem 0.5rem; max-width: 98vw; min-width: 0;}
+            #cakeVideo { width: 90vw !important; max-width: 98vw; }
+            .cake-section { margin: 1rem 0 0.5rem 0;}
+            .balloon { width: 38px; height: 52px;}
+        }
+    </style>
+</head>
+<body>
+    <!-- BALLOONS -->
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+
+    <canvas class="confetti"></canvas>
+    <div class="card" id="mainCard" style="display:none;">
+        <div class="heart">❤️</div>
+        <h1 id="greeting">Happy Birthday!</h1>
+        <p id="wishText">
+            Wishing you a day filled with laughter, love, and all the happiness you deserve.<br>
+            May your dreams come true and your smile never fade.<br>
+            <b>You are truly special to me!</b><br>
+            <span style="color: #fd6e6a;">Have the most amazing birthday, my crush! 🎂✨</span>
+        </p>
+        <div class="cake-section">
+            <div class="cake-video-wrapper">
+                <video id="cakeVideo" width="300" poster="https://cdn.pixabay.com/photo/2017/07/31/11/21/birthday-2554481_1280.jpg">
+                    <source src="https://cdn.pixabay.com/video/2017/11/06/13/40/birthday-22996.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div>
+                <button id="cutBtn" style="margin-top:1rem;font-size:1.1rem;padding:0.5rem 1.5rem;background:#fd6e6a;color:#fff;border:none;border-radius:10px;cursor:pointer;">Cut the Cake!</button>
+            </div>
+        </div>
+        <div class="message" id="cakeMsg">Yay! The cake is cut! 🎉<br>Hope you loved your special surprise! 💖</div>
+        <button class="gallery-btn" id="galleryBtn">Photo Gallery 📸</button>
+        <div style="margin-top: 1.5rem; color: #888; font-size: 1rem;">
+            — From someone who admires you a lot 💖
+        </div>
+    </div>
+
+    <!-- Name Prompt Modal -->
+    <div id="nameModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;background:#0008;z-index:10;">
+        <div style="background:#fff;padding:2rem 1.5rem;border-radius:18px;box-shadow:0 2px 15px #0005;max-width:90vw;text-align:center;">
+            <h2 style="color:#fd6e6a;margin-bottom:1rem;">Hi there! 🎂</h2>
+            <p style="color:#444;">Please enter your name:</p>
+            <input id="nameInput" type="text" placeholder="Your Name" style="padding:0.5rem;font-size:1.15rem;border-radius:6px;border:1px solid #fd6e6a;outline:none;width:80%;max-width:220px;text-align:center;margin-bottom:1rem;"><br>
+            <button id="startBtn" style="margin-top:0.5rem;font-size:1.1rem;padding:0.5rem 1.5rem;background:#fd6e6a;color:#fff;border:none;border-radius:10px;cursor:pointer;">Start Your Surprise</button>
+        </div>
+    </div>
+
+    <!-- Birthday Song (sample: replace with your own song if you wish) -->
+    <audio id="bdaySong" preload="auto">
+        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b6e4f.mp3" type="audio/mp3">
+    </audio>
+    <script>
+        // Confetti code (same as before)
+        const canvas = document.querySelector('.confetti');
+        const ctx = canvas.getContext('2d');
+        let W = window.innerWidth, H = window.innerHeight;
+        canvas.width = W; canvas.height = H;
+        const confettiColors = ['#fd6e6a', '#f9c5d1', '#fff2a6', '#9be7ff', '#a8ffce', '#ffd6e0'];
+        let confetti = [];
+        function randomInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+        function Confetto() {
+            this.x = randomInt(0, W);
+            this.y = randomInt(-H, 0);
+            this.r = randomInt(5, 12);
+            this.color = confettiColors[randomInt(0, confettiColors.length-1)];
+            this.speed = randomInt(2, 6);
+            this.tilt = randomInt(-10, 10);
+        }
+        Confetto.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.ellipse(this.x, this.y, this.r, this.r/2, this.tilt, 0, 2 * Math.PI);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+        function createConfetti() {
+            confetti = [];
+            for (let i = 0; i < 120; i++) confetti.push(new Confetto());
+        }
+        function animateConfetti() {
+            ctx.clearRect(0, 0, W, H);
+            for (let c of confetti) {
+                c.y += c.speed;
+                c.x += Math.sin((c.y / 45) + c.tilt) * 2;
+                if (c.y > H) {
+                    c.x = randomInt(0, W);
+                    c.y = randomInt(-20, 0);
+                }
+                c.draw();
+            }
+            requestAnimationFrame(animateConfetti);
+        }
+        window.addEventListener('resize', () => {
+            W = window.innerWidth; H = window.innerHeight;
+            canvas.width = W; canvas.height = H;
+            createConfetti();
+        });
+        createConfetti();
+        animateConfetti();
+
+        // Name modal logic
+        const nameModal = document.getElementById('nameModal');
+        const mainCard = document.getElementById('mainCard');
+        const startBtn = document.getElementById('startBtn');
+        const nameInput = document.getElementById('nameInput');
+        const greeting = document.getElementById('greeting');
+        const wishText = document.getElementById('wishText');
+        const bdaySong = document.getElementById('bdaySong');
+
+        startBtn.addEventListener('click', () => {
+            let name = nameInput.value.trim();
+            if (!name) {
+                nameInput.style.borderColor = "#ed4f4f";
+                nameInput.focus();
+                return;
+            }
+            nameModal.style.display = 'none';
+            mainCard.style.display = '';
+            greeting.innerHTML = `Happy Birthday, ${name}!`;
+            wishText.innerHTML = `Dear <b>${name}</b>,<br>
+                Wishing you a day filled with laughter, love, and all the happiness you deserve.<br>
+                May your dreams come true and your smile never fade.<br>
+                <span style="color: #fd6e6a;">Have an amazing birthday! 🎂✨</span>`;
+            // Play song (user gesture unlocks autoplay)
+            bdaySong.play();
+        });
+        nameInput.addEventListener('keydown', function(e){
+            if(e.key==="Enter") startBtn.click();
+        });
+        window.onload = () => {
+            nameModal.style.display = '';
+            mainCard.style.display = 'none';
+            nameInput.focus();
+        }
+
+        // Cake cutting video logic
+        const cakeVideo = document.getElementById('cakeVideo');
+        const cutBtn = document.getElementById('cutBtn');
+        const cakeMsg = document.getElementById('cakeMsg');
+        const galleryBtn = document.getElementById('galleryBtn');
+        cutBtn.addEventListener('click', () => {
+            cakeVideo.play();
+            setTimeout(() => {
+                cakeMsg.style.display = 'block';
+                galleryBtn.style.display = 'inline-block';
+            }, 3500);
+            cutBtn.disabled = true;
+            cutBtn.style.opacity = "0.6";
+        });
+
+        // Gallery button logic
+        galleryBtn.addEventListener('click', () => {
+            window.open('gallery.html', '_blank');
+        });
+    </script>
+</body>
+</html>
